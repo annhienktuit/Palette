@@ -5,18 +5,18 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.text.Spannable
+import android.text.SpannableString
+import android.text.style.ForegroundColorSpan
 import android.util.Log
-import android.view.Window
 import android.view.WindowInsets
 import android.view.WindowInsetsController.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
-import android.view.WindowManager
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.PickVisualMediaRequest
@@ -98,21 +98,46 @@ class MainActivity : AppCompatActivity() {
         binding.btnDarkMuted.setBackgroundColor(darkMuted)
         binding.btnMuted.setBackgroundColor(muted)
 
-        palette.dominantSwatch?.titleTextColor?.let { binding.btnDominant.setTextColor(it) }
-        palette.lightVibrantSwatch?.titleTextColor?.let { binding.btnLightVibrant.setTextColor(it) }
-        palette.vibrantSwatch?.titleTextColor?.let { binding.btnVibrant.setTextColor(it) }
-        palette.darkVibrantSwatch?.titleTextColor?.let { binding.btnDarkVibrant.setTextColor(it) }
-        palette.lightMutedSwatch?.titleTextColor?.let { binding.btnLightMuted.setTextColor(it) }
-        palette.darkMutedSwatch?.titleTextColor?.let { binding.btnDarkMuted.setTextColor(it) }
-        palette.mutedSwatch?.titleTextColor?.let { binding.btnMuted.setTextColor(it) }
-        binding.btnDominant.text = "Dominant(${getHex(dominantColor)})"
-        binding.btnLightVibrant.text = "Light Vibrant(${getHex(lightVibrantColor)})"
-        binding.btnVibrant.text = "Vibrant(${getHex(vibrantColor)})"
-        binding.btnDarkVibrant.text = "Dark Vibrant(${getHex(darkVibrant)})"
-        binding.btnLightMuted.text = "Light Muted(${getHex(lightMuted)})"
-        binding.btnDarkMuted.text = "Dark Muted(${getHex(darkMuted)})"
-        binding.btnMuted.text = "Muted(${getHex(muted)})"
-        binding.background.setBackgroundColor(ColorUtils.blendARGB(muted, Color.WHITE, 0.5f))
+        val whiteWord = SpannableString(" WHITE")
+        whiteWord.setSpan(ForegroundColorSpan(Color.WHITE), 0, whiteWord.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+
+        val wordDom: Spannable = SpannableString("Dominant(${getHex(dominantColor)})")
+        wordDom.setSpan(ForegroundColorSpan(palette.dominantSwatch?.titleTextColor ?: Color.WHITE), 0, wordDom.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+        binding.btnDominant.text = wordDom
+        binding.btnDominant.append(whiteWord)
+
+        val wordLightVibrant: Spannable = SpannableString("Light Vibrant(${getHex(lightVibrantColor)})")
+        wordDom.setSpan(ForegroundColorSpan(palette.lightVibrantSwatch?.titleTextColor ?: Color.WHITE), 0, wordDom.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+        binding.btnLightVibrant.text = wordLightVibrant
+        binding.btnLightVibrant.append(whiteWord)
+
+        val wordVibrant: Spannable = SpannableString("Vibrant(${getHex(vibrantColor)})")
+        wordDom.setSpan(ForegroundColorSpan(palette.vibrantSwatch?.titleTextColor ?: Color.WHITE), 0, wordDom.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+        binding.btnVibrant.text = wordVibrant
+        binding.btnVibrant.append(whiteWord)
+
+        val wordDarkVibrant: Spannable = SpannableString("Dark Vibrant(${getHex(darkVibrant)})")
+        wordDom.setSpan(ForegroundColorSpan(palette.darkVibrantSwatch?.titleTextColor ?: Color.WHITE), 0, wordDom.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+        binding.btnDarkVibrant.text = wordDarkVibrant
+        binding.btnDarkVibrant.append(whiteWord)
+
+        val wordLightMuted: Spannable = SpannableString("Light Muted(${getHex(darkVibrant)})")
+        wordDom.setSpan(ForegroundColorSpan(palette.lightMutedSwatch?.titleTextColor ?: Color.WHITE), 0, wordDom.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+        binding.btnLightMuted.text = wordLightMuted
+        binding.btnLightMuted.append(whiteWord)
+
+        val wordDarkMuted: Spannable = SpannableString("Dark Muted(${getHex(darkVibrant)})")
+        wordDom.setSpan(ForegroundColorSpan(palette.darkMutedSwatch?.titleTextColor ?: Color.WHITE), 0, wordDom.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+        binding.btnDarkVibrant.text = wordDarkMuted
+        binding.btnDarkVibrant.append(whiteWord)
+
+        val wordMuted: Spannable = SpannableString("Muted(${getHex(darkVibrant)})")
+        wordDom.setSpan(ForegroundColorSpan(palette.mutedSwatch?.titleTextColor ?: Color.WHITE), 0, wordDom.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+        binding.btnMuted.text = wordMuted
+        binding.btnMuted.append(whiteWord)
+
+        binding.background.setBackgroundColor(ColorUtils.blendARGB(muted, Color.WHITE, 0.4f))
     }
 
     private fun getHex(@ColorInt color: Int): String {
